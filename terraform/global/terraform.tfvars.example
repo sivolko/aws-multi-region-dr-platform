@@ -1,0 +1,65 @@
+# Multi-Region DR Platform Configuration
+# Copy this file to terraform.tfvars and customize the values
+
+# Basic Configuration
+environment = "dev"  # dev, staging, prod
+project_name = "dr-platform"
+
+# Regional Configuration
+primary_region = "us-east-1"
+secondary_region = "us-west-2"
+vpc_cidr_primary = "10.0.0.0/16"
+vpc_cidr_secondary = "10.1.0.0/16"
+
+# Notification Configuration
+# IMPORTANT: Set your email to receive DR alerts and notifications
+notification_email = ""  # Example: "admin@yourcompany.com"
+
+# DNS Configuration (Optional)
+# If you own a domain and want to set up DNS failover, enter it here
+# Leave empty to skip DNS configuration
+domain_name = ""  # Example: "dr-demo.yourcompany.com"
+
+# Route 53 and Health Check Configuration
+enable_route53_health_checks = true
+health_check_failure_threshold = 3  # Number of failures before failover
+health_check_interval_seconds = 30  # Health check frequency
+
+# S3 Cross-Region Replication
+enable_s3_cross_region_replication = true
+
+# RDS Cross-Region Configuration
+enable_rds_cross_region_replica = true
+
+# Disaster Recovery Configuration
+enable_automated_failover = false  # Set to true for production (be careful!)
+enable_chaos_engineering = true   # Enable failure injection testing
+
+# DR Objectives (Production targets)
+rto_target_minutes = 5  # Recovery Time Objective
+rpo_target_minutes = 1  # Recovery Point Objective
+
+# Application Configuration
+application_port = 80
+
+# Cost Optimization Settings
+# Set to true to use single NAT gateway per region (less redundant but cheaper)
+single_nat_gateway = false
+
+# Additional resource tags
+tags = {
+  Owner       = "platform-team"
+  Team        = "infrastructure"
+  CostCenter  = "learning"
+  Purpose     = "disaster-recovery-demo"
+  DeleteAfter = "2025-12-31"  # Reminder to clean up
+}
+
+# Example production settings (commented out):
+# environment = "prod"
+# enable_automated_failover = true
+# health_check_failure_threshold = 2
+# health_check_interval_seconds = 10
+# rto_target_minutes = 2
+# rpo_target_minutes = 0
+# single_nat_gateway = false  # Keep redundancy in production
